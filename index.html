@@ -1,0 +1,166 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+  <title>etch a sketch</title>
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet"> 
+<style>
+
+:root {
+--pxsize: 20px;
+--xparx: 16;
+
+
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+h1 {
+    color: black;
+    text-shadow: 17px 25px 0.7px blueviolet;
+    font-family: 'Pacifico', cursive;
+    
+}
+.reset {
+    width: 120px;
+    align-self: center;
+}
+.grid-container {
+    border: 5px solid black;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: repeat(var(--xparx), 1fr);
+    grid-template-rows: repeat(var(--xparx), 1fr);
+  height: 320px;
+  width: 320px;
+}
+
+.grid-items {
+    width: var(--pxsize);
+    height: var(--pxsize);
+
+
+}
+
+.hovered {
+    background-color: black;
+}
+</style>
+
+
+</head>
+
+
+<body>
+<h1>Etch a Sketch Project</h1>
+<p> Colors fade to black as you pass over them.<p/>
+<button class="reset" type="button" onclick="restart();">clear</button> 
+<div class="grid-container"> 
+
+
+</div>
+
+<script>
+
+const  gridcont = document.querySelector(".grid-container");
+var pxsize = 20;
+var xparx = 16;
+
+//gridsize = 320 / size
+
+function createGrid() {
+   var sizeg = xparx
+    
+    var i = 0;
+    for (let i = 0; i < (sizeg * sizeg); i++) {
+        var newdiv = document.createElement("div");
+    newdiv.classList.add('grid-items'); 
+    newdiv.id = 'square' + i;
+    newdiv.dataset.rgb1 = "none";
+    newdiv.dataset.rgb2 = "none";
+    newdiv.dataset.rgb3 = "none";
+    newdiv.onmouseout  = mousegone;
+    newdiv.onmouseover = mouseon;
+    gridcont.appendChild(newdiv);
+    console.log((sizeg * sizeg));
+     
+        
+        
+    }
+    
+}
+
+function mousegone() { 
+
+   // this.classList.remove('hovered');
+}
+function mouseon() { 
+   // this.classList.add('hovered');
+   let e = this.getAttribute('data-rgb1');
+   
+   if (e == '0') { 
+       return;
+   }
+
+    else if (e == 'none') { 
+        let rgb1 = randomNumber();
+        let rgb2 = randomNumber();
+        let rgb3 = randomNumber();
+        let rgbvalue = 'rgb(' + rgb1 + ',' + rgb2 + ',' + rgb3 + ')';
+        this.style.backgroundColor = rgbvalue;   
+        this.dataset.rgb1 = rgb1;
+        this.dataset.rgb2 = rgb2;
+        this.dataset.rgb3 = rgb3;
+
+   }
+   else {
+       let rgb1 = (this.dataset.rgb1 - (this.dataset.rgb1 * .15));
+       let rgb2 = (this.dataset.rgb2 - (this.dataset.rgb2 * .15));
+       let rgb3 = (this.dataset.rgb3 - (this.dataset.rgb3 * .15));
+       let rgbvalue = 'rgb(' + rgb1 + ',' + rgb2 + ',' + rgb3 + ')';
+       this.style.backgroundColor = rgbvalue;
+       this.dataset.rgb1 = rgb1;
+        this.dataset.rgb2 = rgb2;
+        this.dataset.rgb3 = rgb3;
+
+   }
+
+  
+
+}
+
+function restart() {
+    xparx = prompt('what size', ' ');
+    if (xparx > 50) { xparx = 50};
+    document.documentElement.style.setProperty('--xparx', xparx);
+    pxsize = 320 / xparx;
+    console.log(pxsize);
+    document.documentElement.style.setProperty('--pxsize', pxsize + 'px');
+
+    while (gridcont.firstChild) {
+    gridcont.removeChild(gridcont.firstChild);
+  if(!gridcont.firstChild) {
+    createGrid();
+    break; }
+}
+}
+
+function randomNumber() {
+    let randNumber = Math.floor(Math.random() * (255 - 0 + 1) ) + 0;
+    return randNumber;
+}
+
+createGrid();
+
+
+
+</script>
+</body>
+
+
+</html>
