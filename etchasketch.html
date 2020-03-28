@@ -1,0 +1,122 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+  <title>etch a sketch</title>
+
+<style>
+
+:root {
+--pxsize: 20px;
+--xparx: 16;
+
+
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.reset {
+    width: 120px;
+    align-self: center;
+}
+.grid-container {
+    border: 5px solid black;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: repeat(var(--xparx), 1fr);
+    grid-template-rows: repeat(var(--xparx), 1fr);
+  height: 320px;
+  width: 320px;
+}
+
+.grid-items {
+    width: var(--pxsize);
+    height: var(--pxsize);
+
+
+}
+
+.hovered {
+    background-color: black;
+}
+</style>
+
+
+</head>
+
+
+<body>
+<button class="reset" type="button" onclick="restart();">clear</button> 
+<div class="grid-container"> 
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+const  gridcont = document.querySelector(".grid-container");
+var pxsize = 20;
+var xparx = 16;
+
+//gridsize = 320 / size
+
+function createGrid() {
+   var sizeg = xparx
+    
+    var i = 0;
+    for (let i = 0; i < (sizeg * sizeg); i++) {
+        var newdiv = document.createElement("div");
+    newdiv.classList.add('grid-items'); 
+    newdiv.onmouseout  = mousegone;
+    newdiv.onmouseover = mouseon;
+    gridcont.appendChild(newdiv);
+    console.log((sizeg * sizeg));
+     
+        
+        
+    }
+    
+}
+
+function mousegone() { 
+
+   // this.classList.remove('hovered');
+}
+function mouseon() { 
+
+    this.classList.add('hovered');
+
+}
+
+function restart() {
+    xparx = prompt('what size', ' ');
+    if (xparx > 50) { xparx = 50};
+    document.documentElement.style.setProperty('--xparx', xparx);
+    pxsize = 320 / xparx;
+    console.log(pxsize);
+    document.documentElement.style.setProperty('--pxsize', pxsize + 'px');
+
+    while (gridcont.firstChild) {
+    gridcont.removeChild(gridcont.firstChild);
+  if(!gridcont.firstChild) {
+    createGrid();
+    break; }
+}
+}
+createGrid();
+
+
+
+</script>
+</body>
+
+
+</html>
